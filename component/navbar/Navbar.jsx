@@ -99,7 +99,7 @@ export default function Navbar(props) {
 
     return (
         <>
-            <Box sx={{ display: 'flex' }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                 <CssBaseline />
                 <AppBar component="nav" color="inherit">
                     <Toolbar sx={{ display: 'flex', justifyContent: { sm: "flex-start", md: "space-around" }, flexDirection: { sm: "column", md: "row" } }}>
@@ -141,7 +141,7 @@ export default function Navbar(props) {
                                 Turkish
                             </Button>
                         </Box>
-                        <Box sx={{ display: { xs: 'none', sm: 'flex' }, gap: '10px' }}>
+                        <Box sx={{ display: "flex", gap: '5px' }}>
                             <Button sx={{ color: '#inherit' }}>
                                 <SearchOutlinedIcon />
                             </Button>

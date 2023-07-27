@@ -18,8 +18,8 @@ const foodSlice = createSlice({
         },
         foodsFail: (state, action) => {
             state.isLaoding = false,
-                state.isSucces = false,
-                state.isFailur = action.payload
+            state.isSucces = false,
+            state.isFailur = action.payload
         },
     }
 })

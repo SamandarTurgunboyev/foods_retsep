@@ -8,4 +8,14 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    background-position: 50%;
+    background-size: cover;
+    text-align: center;
+}
+
+@media screen and (max-width: 350px) {
+    .main{
+        height: auto;
+        padding: 15px;
+    }
 }
