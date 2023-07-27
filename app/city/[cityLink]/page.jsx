@@ -11,7 +11,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import Section from '../../../component/section/Section'
 import { addCount } from '../../../slice/addSlice'
 
-const page = () => {
+const page = ({ params }) => {
+    let id = params.cityLink
     const { italian } = useSelector(state => state.italian)
     const state = useSelector(state => state.italian)
     const dispatch = useDispatch()
@@ -19,7 +20,7 @@ const page = () => {
     const getApi = async () => {
         try {
             dispatch(itaIsLoad())
-            const response = await axios.get("https://www.themealdb.com/api/json/v1/1/filter.php?a=Italian")
+            const response = await axios.get(`https://www.themealdb.com/api/json/v1/1/filter.php?a=${id}`)
             dispatch(itaIsSucc(response.data.meals))
             console.log(response);
         } catch (error) {
@@ -34,7 +35,7 @@ const page = () => {
         <>
             <Section
                 titlep={"The "}
-                span={"Italian"}
+                span={id}
                 titlep2={"Of Meals"}
             />
             {

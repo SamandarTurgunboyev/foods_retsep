@@ -1,8 +1,8 @@
 'use client'
 
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTheme } from '@mui/material/styles';
-import { Badge, styled } from '@mui/material';
+import { Badge, ListItemIcon, styled } from '@mui/material';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import MuiAppBar from '@mui/material/AppBar';
@@ -17,15 +17,13 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
-import Button from '@mui/material/Button';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { useSelector } from 'react-redux';
+import axios from 'axios';
+import Link from 'next/link';
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {
@@ -88,6 +86,7 @@ const Navbar = (props) => {
     const { count } = useSelector(state => state.addFavourite)
     const { window } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
+    const [city, setCity] = useState([])
 
     const handleDrawerToggle = () => {
         setMobileOpen((prevState) => !prevState);
@@ -122,6 +121,17 @@ const Navbar = (props) => {
     const handleDrawerClose = () => {
         setOpen(false);
     };
+    const getApi = async () => {
+        try {
+            const response = await axios.get("https://www.themealdb.com/api/json/v1/1/list.php?a=list")
+            setCity(response.data.meals)
+        } catch (error) {
+        }
+    }
+
+    useEffect(() => {
+        getApi()
+    }, [])
 
     return (
         <Box sx={{ display: 'flex' }}>
@@ -180,14 +190,26 @@ const Navbar = (props) => {
                                     anchor="right"
                                     open={open}
                                 >
-                                    <DrawerHeader>
+                                    <DrawerHeader sx={{ width: '100%', position: 'fixed', background: 'grey', zIndex: '1' }}>
                                         <IconButton onClick={handleDrawerClose}>
                                             {theme.direction === 'rtl' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
                                         </IconButton>
                                     </DrawerHeader>
                                     <Divider />
                                     <List>
-
+                                        {city.map((c) => {
+                                            return (
+                                                <ListItem key={c.strArea} disablePadding>
+                                                    <ListItemButton>
+                                                        <Link href={`/city/${c.strArea}`}>
+                                                            <ListItemIcon>
+                                                                {c.strArea}
+                                                            </ListItemIcon>
+                                                        </Link>
+                                                    </ListItemButton>
+                                                </ListItem>
+                                            )
+                                        })}
                                     </List>
                                     <Divider />
                                 </Drawer>
