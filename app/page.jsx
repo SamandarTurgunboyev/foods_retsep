@@ -61,7 +61,7 @@ const page = () => {
               category.map((e) => {
                 return (
                   <Card key={e.idCategory} sx={{ maxWidth: 345, textAlign: "center" }} >
-                    <Link href={e.strCategory.toLowerCase()} style={{ textDecoration: 'none', color: 'black' }} >
+                    <Link href={`category/${e.strCategory.toLowerCase()}`} style={{ textDecoration: 'none', color: 'black' }} >
                       <CardActionArea>
                         <CardMedia
                           component="img"

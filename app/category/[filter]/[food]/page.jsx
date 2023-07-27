@@ -3,7 +3,7 @@
 import axios from 'axios'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { foodNameFail, foodNameLoad, foodNameSucc } from '../../../slice/foodNameSlice'
+import { foodNameFail, foodNameLoad, foodNameSucc } from '../../../../slice/foodNameSlice'
 import { Box, CircularProgress, Container, Typography } from '@mui/material'
 
 const page = ({ params }) => {
