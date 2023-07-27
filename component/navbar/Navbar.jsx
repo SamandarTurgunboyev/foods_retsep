@@ -19,7 +19,7 @@ import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
 import Link from 'next/link';
 import { Badge, styled } from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {
