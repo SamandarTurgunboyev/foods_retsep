@@ -1,8 +1,8 @@
-import { Box, Button, Typography } from '@mui/material'
+import { Box, Button, TextField, Typography } from '@mui/material'
 import React from 'react'
 import './Sec.css'
 
-const Section = ({ titlep, titlep2, span, text, btn, btnT }) => {
+const Section = ({ titlep, titlep2, span, text, btn, btnT, input = false, placeholder, change }) => {
     return (
         <Box component="main" className='main' >
             <Typography variant='h4'>
@@ -11,6 +11,9 @@ const Section = ({ titlep, titlep2, span, text, btn, btnT }) => {
             <Typography variant='subtitle2' sx={{ textAlign: 'center', p: 3, color: '#666', width: '45%' }}>
                 {text}
             </Typography>
+            {input ?
+                <TextField label={placeholder} sx={{ width: "40%" }} onChange={change} /> : ""
+            }
             {btnT ?
                 <Button variant="outlined" color="inherit">{btn}</Button>
                 : <></>

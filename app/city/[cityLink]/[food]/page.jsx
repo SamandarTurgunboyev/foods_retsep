@@ -10,7 +10,6 @@ const page = ({ params }) => {
   let id = params.food
   const state = useSelector(state => state.foodName)
   const { foodName } = useSelector(state => state.foodName)
-  console.log(foodName);
   const dispatch = useDispatch()
 
   const getApi = async () => {
@@ -18,7 +17,6 @@ const page = ({ params }) => {
       dispatch(foodNameLoad())
       const response = await axios.get(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`)
       dispatch(foodNameSucc(response.data.meals))
-      console.log(response);
     } catch (error) {
       dispatch(foodNameFail(error))
     }

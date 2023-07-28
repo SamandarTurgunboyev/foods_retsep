@@ -9,11 +9,12 @@ import React from 'react'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Section from '../../../component/section/Section'
-import { addCount } from '../../../slice/addSlice'
+import { addError, addFav } from '../../../slice/addSlice'
 
 const page = ({ params }) => {
     let id = params.cityLink
     const { italian } = useSelector(state => state.italian)
+    const { favourite } = useSelector(state => state.addFavourites)
     const state = useSelector(state => state.italian)
     const dispatch = useDispatch()
 
@@ -22,7 +23,6 @@ const page = ({ params }) => {
             dispatch(itaIsLoad())
             const response = await axios.get(`https://www.themealdb.com/api/json/v1/1/filter.php?a=${id}`)
             dispatch(itaIsSucc(response.data.meals))
-            console.log(response);
         } catch (error) {
             dispatch(itaIsFail(error))
         }
@@ -31,6 +31,19 @@ const page = ({ params }) => {
     useEffect(() => {
         getApi()
     }, [])
+
+    const addFavourite = async (ids) => {
+        try {
+            const resault = await axios.get(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${ids}`)
+            dispatch(addFav([...favourite, resault.data.meals[0]]))
+            favourite.map((e) => {
+                { e.idMeal !== ids ? dispatch(addFav([...favourite, resault.data.meals[0]])) : dispatch(addFav([...favourite])); }
+            })
+
+        } catch (error) {
+            dispatch(addError(error))
+        }
+    }
     return (
         <>
             <Section
@@ -57,7 +70,7 @@ const page = ({ params }) => {
                         {italian.map((i) => {
                             return (
                                 <Card key={i.idMeal} sx={{ maxWidth: 345, textAlign: "center" }}>
-                                    <Link href={"italian/" + i.idMeal} style={{ textDecoration: 'none', color: 'black' }}>
+                                    <Link href={`${id}/${i.idMeal}`} style={{ textDecoration: 'none', color: 'black' }}>
                                         <CardActionArea>
                                             <CardMedia
                                                 component="img"
@@ -72,7 +85,7 @@ const page = ({ params }) => {
                                             </CardContent>
                                         </CardActionArea>
                                     </Link>
-                                    <Button sx={{ mt: 5, textAlign: 'center' }} variant="outlined" color="inherit" onClick={() => dispatch(addCount())}>Favourite</Button>
+                                    <Button sx={{ mt: 5, textAlign: 'center' }} variant="outlined" color="inherit" onClick={() => addFavourite(i.idMeal)}>Favourite</Button>
                                 </Card>
                             )
                         })}

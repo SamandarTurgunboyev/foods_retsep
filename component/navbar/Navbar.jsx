@@ -17,13 +17,12 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
-import { useSelector } from 'react-redux';
 import axios from 'axios';
 import Link from 'next/link';
+import { useSelector } from 'react-redux';
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {
@@ -35,27 +34,6 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 }));
 
 const drawerWidth = 240;
-
-const navItems = ['Home', 'About', 'Contact'];
-
-const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
-    ({ theme, open }) => ({
-        flexGrow: 1,
-        padding: theme.spacing(3),
-        transition: theme.transitions.create('margin', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-        }),
-        marginRight: -drawerWidth,
-        ...(open && {
-            transition: theme.transitions.create('margin', {
-                easing: theme.transitions.easing.easeOut,
-                duration: theme.transitions.duration.enteringScreen,
-            }),
-            marginRight: 0,
-        }),
-    }),
-);
 
 const AppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== 'open',
@@ -83,7 +61,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }));
 
 const Navbar = (props) => {
-    const { count } = useSelector(state => state.addFavourite)
+    const { favourite } = useSelector(state => state.addFavourites)
     const { window } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
     const [city, setCity] = useState([])
@@ -99,13 +77,28 @@ const Navbar = (props) => {
             </Typography>
             <Divider />
             <List>
-                {navItems.map((item) => (
-                    <ListItem key={item} disablePadding>
-                        <ListItemButton sx={{ textAlign: 'center' }}>
-                            <ListItemText primary={item} />
-                        </ListItemButton>
-                    </ListItem>
-                ))}
+                <ListItem disablePadding>
+                    <ListItemButton>
+                        <Link href="/">
+                            <ListItemIcon>
+                                Home
+                            </ListItemIcon>
+                        </Link>
+                    </ListItemButton>
+                </ListItem>
+                {city.map((c) => {
+                    return (
+                        <ListItem key={c.strArea} disablePadding>
+                            <ListItemButton>
+                                <Link href={`/city/${c.strArea}`}>
+                                    <ListItemIcon>
+                                        {c.strArea}
+                                    </ListItemIcon>
+                                </Link>
+                            </ListItemButton>
+                        </ListItem>
+                    )
+                })}
             </List>
         </Box>
     );
@@ -147,34 +140,39 @@ const Navbar = (props) => {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Box sx={{ width: '100%', display: { xs: 'none', sm: 'flex' }, justifyContent: 'space-between' }} >
-                        <Typography sx={{ display: { xs: 'none', sm: 'flex' }, gap: '10px', alignItems: 'center' }}>
-                            <ShoppingCartOutlinedIcon sx={{ color: "#ff7800" }} /> Food
+                    <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between' }} >
+                        <Typography sx={{ display: { xs: 'none', sm: 'flex' }, gap: '15px', alignItems: 'center' }}>
+                            <Link href='/' >
+                                <ShoppingCartOutlinedIcon sx={{ color: "#ff7800" }} />
+                            </Link>
+                            Food
                         </Typography>
                         <Toolbar
-                            color="inherit"
-                            aria-label="open drawer"
-                            edge="end"
-                            onClick={handleDrawerOpen}
                             sx={{ ...(open && { display: 'none' }), gap: '10px' }}
                         >
+                            <Link href='/search'>
+                                <IconButton aria-label="cart">
+                                    <SearchOutlinedIcon sx={{ color: 'white' }} />
+                                </IconButton>
+                            </Link>
                             <IconButton aria-label="cart">
-                                <SearchOutlinedIcon sx={{ color: 'white' }} />
+                                <Link href='/favourite'>
+                                    <StyledBadge badgeContent={favourite.length} color="secondary">
+                                        <StarOutlinedIcon sx={{ color: 'white' }} />
+                                    </StyledBadge>
+                                </Link>
                             </IconButton>
-                            <IconButton aria-label="cart">
-                                <StyledBadge badgeContent={count} color="secondary">
-                                    <StarOutlinedIcon sx={{ color: 'white' }} />
-                                </StyledBadge>
-                            </IconButton>
-                            <IconButton
-                                color="inherit"
-                                aria-label="open drawer"
-                                edge="end"
-                                onClick={handleDrawerOpen}
-                                sx={{ ...(open && { display: 'none' }) }}
-                            >
-                                <MenuIcon />
-                            </IconButton>
+                            <Box sx={{ display: { xs: 'none', sm: 'flex' } }}>
+                                <IconButton
+                                    color="inherit"
+                                    aria-label="open drawer"
+                                    edge="end"
+                                    onClick={handleDrawerOpen}
+                                    sx={{ ...(open && { display: 'none' }) }}
+                                >
+                                    <MenuIcon />
+                                </IconButton>
+                            </Box>
                         </Toolbar>
                         {open ?
                             <Box>
@@ -196,7 +194,16 @@ const Navbar = (props) => {
                                         </IconButton>
                                     </DrawerHeader>
                                     <Divider />
-                                    <List>
+                                    <List sx={{ marginTop: "70px" }}>
+                                        <ListItem disablePadding>
+                                            <ListItemButton>
+                                                <Link href="/">
+                                                    <ListItemIcon>
+                                                        Home
+                                                    </ListItemIcon>
+                                                </Link>
+                                            </ListItemButton>
+                                        </ListItem>
                                         {city.map((c) => {
                                             return (
                                                 <ListItem key={c.strArea} disablePadding>

@@ -1,31 +1,31 @@
 "use client"
-
-import axios from 'axios'
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { foodNameFail, foodNameLoad, foodNameSucc } from '../../../../slice/foodNameSlice'
+import { meelIsFail, meelIsLoad, meelIsSucc } from '../../../../../../slice/meelsSlice'
 import { Box, CircularProgress, Container, Typography } from '@mui/material'
+import axios from 'axios'
+import React from 'react'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
-const page = ({ params }) => {
-  let id = params.food
-  const state = useSelector(state => state.foodName)
-  const { foodName } = useSelector(state => state.foodName)
+
+const Meels = ({ params }) => {
+  let id = params.meels
+  const { meels } = useSelector(state => state.meels)
+  const state = useSelector(state => state.meels)
   const dispatch = useDispatch()
 
   const getApi = async () => {
     try {
-      dispatch(foodNameLoad())
+      dispatch(meelIsLoad())
       const response = await axios.get(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`)
-      dispatch(foodNameSucc(response.data.meals))
+      dispatch(meelIsSucc(response.data.meals))
     } catch (error) {
-      dispatch(foodNameFail(error))
+      dispatch(meelIsFail(error))
     }
   }
 
   useEffect(() => {
     getApi()
   }, [])
-
   return (
     <>
       {state.isLoading ?
@@ -35,7 +35,7 @@ const page = ({ params }) => {
         :
         <>
           {
-            foodName.map((m) => {
+            meels.map((m) => {
               const src = m.strYoutube.slice(32)
               return (
                 <div key={m.idMeal}>
@@ -71,4 +71,4 @@ const page = ({ params }) => {
   )
 }
 
-export default page
+export default Meels
