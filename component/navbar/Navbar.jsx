@@ -62,6 +62,13 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 const Navbar = (props) => {
     const { favourite } = useSelector(state => state.addFavourites)
+
+    const res = favourite.filter(function (iteam, index) {
+        return index === favourite.findIndex(function (obj) {
+            return JSON.stringify(iteam) === JSON.stringify(obj)
+        })
+    })
+
     const { window } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
     const [city, setCity] = useState([])
@@ -157,7 +164,7 @@ const Navbar = (props) => {
                             </Link>
                             <IconButton aria-label="cart">
                                 <Link href='/favourite'>
-                                    <StyledBadge badgeContent={favourite.length} color="secondary">
+                                    <StyledBadge badgeContent={res.length} color="secondary">
                                         <StarOutlinedIcon sx={{ color: 'white' }} />
                                     </StyledBadge>
                                 </Link>

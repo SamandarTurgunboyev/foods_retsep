@@ -7,6 +7,7 @@ import foodNameSlice from "../slice/foodNameSlice";
 import italianSlice from "../slice/italianSlice";
 import meelsSlice from "../slice/meelsSlice";
 import searchSlice from "../slice/serachSlice";
+import searchFoodSlice from "../slice/searchFoodSlice";
 import { configureStore } from "@reduxjs/toolkit";
 
 export function makestore() {
@@ -19,6 +20,7 @@ export function makestore() {
             foods: foodSlice,
             foodName: foodNameSlice,
             search: searchSlice,
+            searchFood: searchFoodSlice,
         }
     })
 }

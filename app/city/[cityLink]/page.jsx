@@ -36,9 +36,6 @@ const page = ({ params }) => {
         try {
             const resault = await axios.get(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${ids}`)
             dispatch(addFav([...favourite, resault.data.meals[0]]))
-            favourite.map((e) => {
-                { e.idMeal !== ids ? dispatch(addFav([...favourite, resault.data.meals[0]])) : dispatch(addFav([...favourite])); }
-            })
 
         } catch (error) {
             dispatch(addError(error))

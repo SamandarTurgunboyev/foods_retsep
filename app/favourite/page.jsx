@@ -8,11 +8,17 @@ import { addFav } from '../../slice/addSlice'
 
 const page = () => {
     const { favourite } = useSelector(state => state.addFavourites)
+    const res = favourite.filter(function (iteam, index) {
+        return index === favourite.findIndex(function (obj) {
+            return JSON.stringify(iteam) === JSON.stringify(obj)
+        })
+    })
     const dispatch = useDispatch()
     const deleteFav = (id) => {
         const remove = favourite.filter((f) => f.idMeal !== id)
         dispatch(addFav(remove))
     }
+
     return (
         <>
             <Section span={"Your"} titlep2={"Favourite Meals"} />
@@ -26,10 +32,11 @@ const page = () => {
                     marginTop: "100px",
                 }}
             >
-                {favourite.length > 0 ?
+                {res.length > 0 ?
                     <>
                         {
-                            favourite.map((m) => {
+                            res.map((m) => {
+                                console.log(m);
                                 return (
                                     <Card key={m.idMeal} sx={{ maxWidth: 345, textAlign: "center" }}>
                                         <Link href={`favourite/${m.idMeal}`} style={{ textDecoration: 'none', color: 'black' }}>

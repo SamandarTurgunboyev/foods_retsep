@@ -9,6 +9,7 @@ import { Box, Button, Card, CardActionArea, CardContent, CardMedia, CircularProg
 import Stack from '@mui/material/Stack';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { addError, addFav } from '../../slice/addSlice'
+import Link from 'next/link'
 
 const page = () => {
     const dispatch = useDispatch()
@@ -86,21 +87,21 @@ const page = () => {
                                     complated.map((m) => {
                                         return (
                                             <Card key={m.idMeal} sx={{ maxWidth: 345, textAlign: "center" }}>
-                                                {/* <Link href={`${id}/${m.idMeal}`} style={{ textDecoration: 'none', color: 'black' }}> */}
-                                                <CardActionArea>
-                                                    <CardMedia
-                                                        component="img"
-                                                        sx={{ mt: 5 }}
-                                                        image={m.strMealThumb}
-                                                        alt="green iguana"
-                                                    />
-                                                    <CardContent sx={{ mt: 5 }}>
-                                                        <Typography gutterBottom variant="h5" component="div">
-                                                            {m.strMeal}
-                                                        </Typography>
-                                                    </CardContent>
-                                                </CardActionArea>
-                                                {/* </Link> */}
+                                                <Link href={`search/${m.idMeal}`} style={{ textDecoration: 'none', color: 'black' }}>
+                                                    <CardActionArea>
+                                                        <CardMedia
+                                                            component="img"
+                                                            sx={{ mt: 5 }}
+                                                            image={m.strMealThumb}
+                                                            alt="green iguana"
+                                                        />
+                                                        <CardContent sx={{ mt: 5 }}>
+                                                            <Typography gutterBottom variant="h5" component="div">
+                                                                {m.strMeal}
+                                                            </Typography>
+                                                        </CardContent>
+                                                    </CardActionArea>
+                                                </Link>
                                                 <Button sx={{ mt: 5, textAlign: 'center' }} variant="outlined" color="inherit" onClick={() => addFavourite(m.idMeal)}>Favourite</Button>
                                             </Card>
                                         )
